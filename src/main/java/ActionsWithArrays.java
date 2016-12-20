@@ -1,6 +1,7 @@
 import sun.plugin2.util.NativeLibLoader;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -17,8 +18,11 @@ public class ActionsWithArrays<T> {
 //        String[] array = Stream.generate(() -> new String("sf")).limit(7).toArray(String[]::new);
 //
 //        System.out.println(new ActionsWithArrays().generatesIntegerArrayWithRandomElements(7, 7));
+        List<Integer> list = new ArrayList<>();
+        list = Stream.generate(() -> new Integer(new Random().nextInt())).collect(Collectors.toList());
         try {
-            Integer[] arr = Stream.generate(() -> new Integer(new Random().nextInt(34)))
+            Integer[] arr = Stream.generate(() ->
+                    new Random().nextInt(34))
                     .filter(i -> i % 2 == 0)
                     .limit(7)
                     .distinct()
