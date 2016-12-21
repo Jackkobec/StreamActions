@@ -1,6 +1,3 @@
-import sun.plugin2.util.NativeLibLoader;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,12 +11,37 @@ import java.util.stream.Stream;
 public class ActionsWithArrays<T> {
 
     public static void main(String[] args) {
+
 //        System.out.println("Создать и заполнить массив/create and fill array:");
 //        String[] array = Stream.generate(() -> new String("sf")).limit(7).toArray(String[]::new);
 //
 //        System.out.println(new ActionsWithArrays().generatesIntegerArrayWithRandomElements(7, 7));
         List<Integer> list = new ArrayList<>();
-        list = Stream.generate(() -> new Integer(new Random().nextInt())).collect(Collectors.toList());
+        try {
+            list = Stream.generate(() ->
+                    new Random().nextInt(34))
+                    .filter(i -> i % 2 == 0)
+                    .limit(7)
+                    .distinct()
+                    .filter(i -> i > 2)
+                    .sorted((i1, i2) -> i2.compareTo(i1))
+                    .map(i -> i + 1)
+                    .map(ActionsWithArrays::method)
+                    //.map(ActionsWithArrays::method)
+//                    .map(i -> i ==7 ? -7 : (int) (Math.random() * 7) )
+                    .map(i -> {
+                        if (i == 7 || (i == 2)) {
+                            throw new NullPointerException("7");
+                        }
+                        return (int) (Math.random() * 7);
+                    })
+                    .collect(Collectors.toList());
+
+            list.forEach(i -> System.out.print(i + "; "));
+        } catch (NullPointerException e) {
+            System.out.println("You win!");
+        }
+
         try {
             Integer[] arr = Stream.generate(() ->
                     new Random().nextInt(34))
